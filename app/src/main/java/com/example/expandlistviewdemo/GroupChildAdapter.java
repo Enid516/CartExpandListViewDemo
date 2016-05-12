@@ -132,12 +132,15 @@ public class GroupChildAdapter extends BaseExpandableListAdapter{
 
         @Override
         public void onClick(View view) {
+            //设置选中组的选中状态
             mGroups.get(gPosition).setIsCheck(gViewHolderGroup.cb.isChecked());
+            //将该组的child的选中状态
             for (int i = 0; i < mGroups.get(gPosition).getChilds().size(); i++) {
                 mGroups.get(gPosition).getChilds().get(i).setIsCheck(gViewHolderGroup.cb.isChecked());
             }
+            //刷新数据
             notifyDataSetChanged();
-            // TO-DO 通知Activity 全选是否选中
+            //通知Activity 全选是否选中
             if (clickCallback != null)
                 clickCallback.checkAll(itemCheckIsCheckAll());
         }
@@ -156,16 +159,19 @@ public class GroupChildAdapter extends BaseExpandableListAdapter{
 
         @Override
         public void onClick(View view) {
+            //设置child的选中状态
             mGroups.get(gPosition).getChilds().get(cPosition).setIsCheck(cViewHolderChild.cb.isChecked());
-            mGroups.get(gPosition).setIsCheck(childCheckIsGroupCheck(gPosition));//判断group 是否被选中
+            //设置该child所属group的选中状态
+            mGroups.get(gPosition).setIsCheck(childCheckIsGroupCheck(gPosition));
+            //刷新数据
             notifyDataSetChanged();
-            // TO-DO 通知Activity 全选是否选中
+            // 通知Activity 全选是否选中
             if (clickCallback != null)
                 clickCallback.checkAll(itemCheckIsCheckAll());
         }
     }
 
-    public interface IClickCheckAllCallback{
+    public static interface IClickCheckAllCallback{
         void checkAll(boolean checkAll);
     }
 
